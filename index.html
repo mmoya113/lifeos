@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#08090c">
+  <meta name="description" content="LifeOS is a private, local-first command center for your tasks, habits, focus, goals and money.">
+  <title>LifeOS — Make today count</title>
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <aside class="sidebar">
+    <a class="brand" href="#today" aria-label="LifeOS home">
+      <span class="brand-mark">L</span>
+      <span>Life<span>OS</span></span>
+    </a>
+
+    <nav class="nav" aria-label="Main navigation">
+      <button class="nav-item active" data-view="today"><span>◫</span> Today <kbd>1</kbd></button>
+      <button class="nav-item" data-view="planner"><span>✓</span> Planner <kbd>2</kbd></button>
+      <button class="nav-item" data-view="habits"><span>↗</span> Habits <kbd>3</kbd></button>
+      <button class="nav-item" data-view="focus"><span>◎</span> Focus <kbd>4</kbd></button>
+      <button class="nav-item" data-view="money"><span>◇</span> Money <kbd>5</kbd></button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button class="nav-item" data-view="settings"><span>⚙</span> Settings</button>
+      <div class="privacy-pill"><span></span> Your data stays here</div>
+      <div class="profile">
+        <div class="avatar" id="avatar">M</div>
+        <div><strong id="profileName">Marc</strong><small>Building momentum</small></div>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <button class="mobile-brand" aria-label="Open navigation">L</button>
+      <button class="search-trigger" id="commandTrigger"><span>⌕</span> Search or jump to… <kbd>⌘ K</kbd></button>
+      <div class="top-actions">
+        <button class="icon-button" id="themeToggle" aria-label="Toggle theme">☼</button>
+        <button class="primary small" data-open="taskModal">+ Add task</button>
+      </div>
+    </header>
+
+    <section class="view active" id="todayView">
+      <div class="page-heading reveal">
+        <div><p class="eyebrow" id="fullDate"></p><h1><span id="greeting">Good evening</span>, <span class="gradient-text" id="heroName">Marc.</span></h1><p>Your life doesn't need a reset. It needs one good day.</p></div>
+        <div class="day-score"><div class="score-ring" id="scoreRing"><span id="dayScore">0</span></div><div><strong>Day score</strong><small id="scoreLabel">Ready to begin</small></div></div>
+      </div>
+
+      <div class="hero-grid">
+        <article class="card mission-card reveal">
+          <div class="card-head"><div><span class="label">TODAY'S MISSION</span><h2>Win the day</h2></div><button class="ghost" data-view-target="planner">View all →</button></div>
+          <div class="task-list" id="todayTasks"></div>
+          <button class="inline-add" data-open="taskModal">＋ Add your next move</button>
+        </article>
+
+        <article class="card momentum-card reveal">
+          <div class="card-head"><div><span class="label">MOMENTUM</span><h2>This week</h2></div><span class="trend" id="trendText">↗ On track</span></div>
+          <div class="week-chart" id="weekChart" aria-label="Weekly completion chart"></div>
+          <div class="stats-row">
+            <div><strong id="tasksDone">0</strong><span>tasks done</span></div>
+            <div><strong id="focusMinutes">0m</strong><span>deep focus</span></div>
+            <div><strong id="bestStreak">0</strong><span>best streak</span></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="lower-grid">
+        <article class="card reveal">
+          <div class="card-head"><div><span class="label">HABITS</span><h2>Keep the chain alive</h2></div><button class="ghost" data-view-target="habits">Manage →</button></div>
+          <div class="habit-list compact" id="todayHabits"></div>
+        </article>
+
+        <article class="card focus-preview reveal">
+          <span class="orb orb-one"></span><span class="orb orb-two"></span>
+          <div class="focus-copy"><span class="label">FOCUS MODE</span><h2>Make space for<br>what matters.</h2><p>No notifications. No noise. Just one thing.</p><button class="primary" data-view-target="focus">Start a focus session <span>→</span></button></div>
+          <div class="mini-timer"><span>25</span><small>MIN</small></div>
+        </article>
+      </div>
+
+      <article class="quote-card reveal"><span>“</span><p id="dailyQuote">Small disciplines repeated with consistency every day lead to great achievements gained slowly over time.</p><small id="quoteAuthor">— John C. Maxwell</small></article>
+    </section>
+
+    <section class="view" id="plannerView">
+      <div class="page-heading"><div><p class="eyebrow">MAKE IT CLEAR</p><h1>Your <span class="gradient-text">planner.</span></h1><p>Capture everything. Execute what matters.</p></div><button class="primary" data-open="taskModal">+ New task</button></div>
+      <div class="toolbar card"><div class="filter-tabs"><button class="active" data-filter="all">All</button><button data-filter="open">Open</button><button data-filter="done">Completed</button></div><select id="areaFilter" aria-label="Filter by area"><option value="all">All areas</option><option>Personal</option><option>Study</option><option>Health</option><option>Work</option></select></div>
+      <div class="planner-list" id="plannerTasks"></div>
+      <div class="empty-state" id="taskEmpty"><span>✓</span><h3>Nothing here</h3><p>Add a task or change the filters.</p></div>
+    </section>
+
+    <section class="view" id="habitsView">
+      <div class="page-heading"><div><p class="eyebrow">SYSTEMS OVER GOALS</p><h1>Build your <span class="gradient-text">identity.</span></h1><p>Every check-in is a vote for the person you're becoming.</p></div><button class="primary" data-open="habitModal">+ New habit</button></div>
+      <div class="habit-summary-grid">
+        <div class="card summary-number"><span>Current best</span><strong id="habitBest">0 days</strong><small>Keep showing up.</small></div>
+        <div class="card summary-number"><span>Today's progress</span><strong id="habitPercent">0%</strong><div class="progress"><i id="habitProgress"></i></div></div>
+        <div class="card summary-number"><span>Total check-ins</span><strong id="totalChecks">0</strong><small>Proof of your consistency.</small></div>
+      </div>
+      <div class="habit-list full" id="habitManager"></div>
+    </section>
+
+    <section class="view" id="focusView">
+      <div class="focus-page">
+        <p class="eyebrow">DEEP WORK</p><h1>Protect your <span class="gradient-text">attention.</span></h1>
+        <div class="timer-shell">
+          <div class="timer-ring" id="timerRing"><div><strong id="timerText">25:00</strong><span id="timerStatus">Ready when you are</span></div></div>
+          <div class="timer-modes"><button class="active" data-minutes="25">Focus</button><button data-minutes="5">Short break</button><button data-minutes="15">Long break</button></div>
+          <input id="focusIntention" maxlength="80" placeholder="What are you focusing on?" aria-label="Focus intention">
+          <div class="timer-actions"><button class="icon-button large" id="timerReset">↺</button><button class="primary timer-start" id="timerStart">Start focus</button><button class="icon-button large" id="timerSound">♪</button></div>
+        </div>
+        <div class="focus-stats"><div><span>Today</span><strong id="focusToday">0 min</strong></div><div><span>Sessions</span><strong id="focusSessions">0</strong></div><div><span>All time</span><strong id="focusAllTime">0h</strong></div></div>
+      </div>
+    </section>
+
+    <section class="view" id="moneyView">
+      <div class="page-heading"><div><p class="eyebrow">KNOW YOUR NUMBERS</p><h1>Money, without the <span class="gradient-text">spreadsheet.</span></h1><p>A simple view of what comes in and what goes out.</p></div><button class="primary" data-open="moneyModal">+ Add entry</button></div>
+      <div class="money-grid">
+        <div class="card balance-card"><span>Current balance</span><strong id="balance">€0.00</strong><small id="balanceDelta">Start tracking to see your progress</small></div>
+        <div class="card money-stat income"><span>Income</span><strong id="incomeTotal">€0.00</strong><i>↗</i></div>
+        <div class="card money-stat expense"><span>Expenses</span><strong id="expenseTotal">€0.00</strong><i>↘</i></div>
+      </div>
+      <article class="card"><div class="card-head"><div><span class="label">RECENT ACTIVITY</span><h2>Your transactions</h2></div></div><div class="transaction-list" id="transactions"></div></article>
+    </section>
+
+    <section class="view" id="settingsView">
+      <div class="page-heading"><div><p class="eyebrow">MAKE IT YOURS</p><h1>Your <span class="gradient-text">settings.</span></h1><p>LifeOS is yours. Your data never leaves this device.</p></div></div>
+      <div class="settings-grid">
+        <article class="card settings-card"><h2>Profile</h2><label>Your name<input id="nameSetting" maxlength="24"></label><label>Currency<select id="currencySetting"><option value="EUR">EUR (€)</option><option value="USD">USD ($)</option><option value="GBP">GBP (£)</option></select></label><button class="primary" id="saveSettings">Save changes</button></article>
+        <article class="card settings-card"><h2>Your data</h2><p>Everything is stored locally in your browser. Export a backup whenever you want.</p><div class="setting-actions"><button class="secondary" id="exportData">Export backup</button><label class="secondary file-label">Import backup<input type="file" id="importData" accept="application/json"></label><button class="danger" id="resetData">Reset everything</button></div></article>
+        <article class="card settings-card privacy-card"><div class="privacy-icon">⌁</div><h2>Private by design</h2><p>No account. No analytics. No tracking. No server. You own every byte.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="active" data-view="today">◫<span>Today</span></button><button data-view="planner">✓<span>Tasks</span></button><button data-view="habits">↗<span>Habits</span></button><button data-view="focus">◎<span>Focus</span></button><button data-view="money">◇<span>Money</span></button>
+  </nav>
+
+  <dialog id="taskModal"><form method="dialog" id="taskForm"><div class="modal-head"><div><span class="label">NEW MOVE</span><h2>Add a task</h2></div><button class="close" value="cancel" aria-label="Close">×</button></div><label>What needs to happen?<input name="title" required maxlength="90" placeholder="e.g. Finish the project proposal" autofocus></label><div class="form-row"><label>Area<select name="area"><option>Personal</option><option>Study</option><option>Health</option><option>Work</option></select></label><label>Priority<select name="priority"><option value="1">Normal</option><option value="2">Important</option><option value="3">Critical</option></select></label></div><label>Due date<input name="due" type="date"></label><button class="primary full-button" value="default">Add task</button></form></dialog>
+
+  <dialog id="habitModal"><form method="dialog" id="habitForm"><div class="modal-head"><div><span class="label">NEW SYSTEM</span><h2>Create a habit</h2></div><button class="close" value="cancel">×</button></div><label>Habit name<input name="name" required maxlength="50" placeholder="e.g. Read for 20 minutes"></label><div class="form-row"><label>Icon<select name="icon"><option>⚡</option><option>🏋️</option><option>📚</option><option>💧</option><option>🧠</option><option>🌿</option></select></label><label>Color<select name="color"><option value="#9cff57">Lime</option><option value="#7c6cff">Purple</option><option value="#38bdf8">Blue</option><option value="#fb7185">Coral</option></select></label></div><button class="primary full-button" value="default">Create habit</button></form></dialog>
+
+  <dialog id="moneyModal"><form method="dialog" id="moneyForm"><div class="modal-head"><div><span class="label">NEW ENTRY</span><h2>Track money</h2></div><button class="close" value="cancel">×</button></div><label>Description<input name="description" required maxlength="60" placeholder="e.g. Weekend job"></label><div class="form-row"><label>Type<select name="type"><option value="income">Income</option><option value="expense">Expense</option></select></label><label>Amount<input name="amount" required type="number" min="0.01" step="0.01" placeholder="0.00"></label></div><label>Category<select name="category"><option>Work</option><option>Food</option><option>Transport</option><option>Fun</option><option>Shopping</option><option>Other</option></select></label><button class="primary full-button" value="default">Add entry</button></form></dialog>
+
+  <dialog id="commandPalette" class="command-dialog"><div class="command-box"><input id="commandInput" placeholder="Type a command or search tasks…" autocomplete="off"><div class="command-results" id="commandResults"></div><small>↑↓ Navigate &nbsp; Enter Select &nbsp; Esc Close</small></div></dialog>
+
+  <div class="toast" id="toast"><span>✓</span><p>Done</p></div>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
