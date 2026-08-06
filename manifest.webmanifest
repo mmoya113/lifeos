@@ -1,0 +1,10 @@
+{
+  "name": "LifeOS — Personal Command Center",
+  "short_name": "LifeOS",
+  "description": "A private, local-first command center for your goals, habits, focus and money.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#08090c",
+  "theme_color": "#08090c",
+  "icons": [{ "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
