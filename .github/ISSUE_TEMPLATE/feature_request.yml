@@ -1,0 +1,24 @@
+name: Feature request
+description: Suggest an improvement that fits LifeOS
+title: "[Idea]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would a great solution feel like?
+    validations:
+      required: true
+  - type: checkboxes
+    id: principles
+    attributes:
+      label: Project principles
+      options:
+        - label: This can preserve the local-first privacy model.
+          required: true
